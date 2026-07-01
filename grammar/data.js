@@ -108,16 +108,17 @@ module.exports = {
     field('right_operand', $._field_type),
   )),
 
-  _datacon_record: $ => seq(
+  _datacon_record: $ => prec('record', seq(
     field('name', $._constructor),
     choice(
       field('fields', alias($._record_fields, $.fields)),
-      seq(
-        'with',
-        field('fields', $.daml_fields)
-      )
-    )
-  ),
+      // Daml record syntax: `data X = C with f1 : T1; f2 : T2`.
+      // The `with` keyword is reserved and the scanner suppresses the infix
+      // data-constructor interpretation when it follows a constructor, so this
+      // alternative is selected unambiguously.
+      seq('with', field('fields', $.daml_fields)),
+    ),
+  )),
 
   _datacon_unboxed_sum: $ => unboxed_sum_single($, $.quantified_type),
 

@@ -7428,52 +7428,56 @@
       }
     },
     "_datacon_record": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_constructor"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "fields",
-              "content": {
-                "type": "ALIAS",
+      "type": "PREC",
+      "value": "record",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_constructor"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "fields",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "_record_fields"
-                },
-                "named": true,
-                "value": "fields"
-              }
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "with"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "fields",
+                  "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "daml_fields"
-                  }
+                    "name": "_record_fields"
+                  },
+                  "named": true,
+                  "value": "fields"
                 }
-              ]
-            }
-          ]
-        }
-      ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "with"
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "fields",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "daml_fields"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     },
     "_datacon_unboxed_sum": {
       "type": "SEQ",
@@ -14098,5 +14102,12 @@
     "qualifier",
     "guard"
   ],
-  "reserved": {}
+  "reserved": {
+    "global": [
+      {
+        "type": "STRING",
+        "value": "with"
+      }
+    ]
+  }
 }

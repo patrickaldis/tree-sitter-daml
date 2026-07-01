@@ -109,4 +109,14 @@ module.exports = grammar({
    */
   word: $ => $.variable,
 
+  /**
+   * `with` is a reserved keyword in Daml (used by templates, record expressions
+   * and `data ... with` record declarations), so it must never be lexed as an
+   * identifier/type variable. Without this, `data X = X with f : T` is
+   * mis-parsed as constructor application (`with`/`f` as type args).
+   */
+  reserved: {
+    global: _ => ['with'],
+  },
+
 })

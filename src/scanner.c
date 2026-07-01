@@ -3219,6 +3219,14 @@ static CtrResult ctr_lookahead_step(Env *env, CtrState *state, Lexed next) {
           state->reset = take_char_literal(env);
           return CtrUndecided;
         default:
+          // `with` introduces a Daml record block (`data X = C with f : T ...`,
+          // `template ... with`, `r with f = ...`). It is a reserved keyword, so
+          // it can never be part of a type/context. Encountering it during
+          // lookahead means no infix operator (in particular no `data_infix`
+          // `:`) can belong to the current construct, so terminate the search.
+          // Without this, the `:` of the first field is mistaken for an infix
+          // data constructor operator.
+          if (token(env, "with")) return CtrImpossible;
           if (varid_start_char(peek0(env))) state->reset = advance_while(env, 1, is_id_char);
           break;
       }
