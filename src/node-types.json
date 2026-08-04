@@ -204,6 +204,10 @@
         "named": true
       },
       {
+        "type": "interface",
+        "named": true
+      },
+      {
         "type": "kind_signature",
         "named": true
       },
@@ -275,6 +279,10 @@
       },
       {
         "type": "infix",
+        "named": true
+      },
+      {
+        "type": "key_expression",
         "named": true
       },
       {
@@ -3782,6 +3790,171 @@
     "fields": {}
   },
   {
+    "type": "interface",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "interface_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "required": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "qualified",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "interface_body",
+    "named": true,
+    "fields": {
+      "item": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "interface_item",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "interface_instance",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "interface_instance_body",
+            "named": true
+          }
+        ]
+      },
+      "interface": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "qualified",
+            "named": true
+          }
+        ]
+      },
+      "template": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "qualified",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "interface_instance_body",
+    "named": true,
+    "fields": {
+      "declaration": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "decl",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "interface_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "choice",
+          "named": true
+        },
+        {
+          "type": "interface_method",
+          "named": true
+        },
+        {
+          "type": "viewtype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interface_method",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "quantified_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "invisible",
     "named": true,
     "fields": {
@@ -3812,6 +3985,27 @@
         ]
       }
     }
+  },
+  {
+    "type": "key",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "key_expression",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "kind_application",
@@ -4226,6 +4420,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "maintainer",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -5539,6 +5748,10 @@
             "named": true
           },
           {
+            "type": "key_expression",
+            "named": true
+          },
+          {
             "type": "label",
             "named": true
           },
@@ -5729,6 +5942,18 @@
         },
         {
           "type": "ensure",
+          "named": true
+        },
+        {
+          "type": "interface_instance",
+          "named": true
+        },
+        {
+          "type": "key",
+          "named": true
+        },
+        {
+          "type": "maintainer",
           "named": true
         },
         {
@@ -6344,6 +6569,22 @@
     }
   },
   {
+    "type": "viewtype",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "quantified_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "wildcard",
     "named": true,
     "fields": {}
@@ -6370,23 +6611,36 @@
   {
     "type": "with_field",
     "named": true,
-    "fields": {},
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "signature",
+            "named": true
+          }
+        ]
+      },
+      "field": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "punned_field",
-          "named": true
-        },
-        {
-          "type": "signature",
-          "named": true
-        },
         {
           "type": "wildcard",
           "named": true
@@ -6487,10 +6741,6 @@
   },
   {
     "type": ":",
-    "named": false
-  },
-  {
-    "type": "::",
     "named": false
   },
   {
@@ -6640,6 +6890,10 @@
     "named": true
   },
   {
+    "type": "for",
+    "named": false
+  },
+  {
     "type": "forall",
     "named": false
   },
@@ -6697,11 +6951,23 @@
     "named": false
   },
   {
+    "type": "interface",
+    "named": false
+  },
+  {
+    "type": "key",
+    "named": false
+  },
+  {
     "type": "label",
     "named": true
   },
   {
     "type": "let",
+    "named": false
+  },
+  {
+    "type": "maintainer",
     "named": false
   },
   {
@@ -6762,10 +7028,6 @@
     "named": false
   },
   {
-    "type": "punned_field",
-    "named": true
-  },
-  {
     "type": "qualified",
     "named": false
   },
@@ -6779,6 +7041,10 @@
   },
   {
     "type": "representational",
+    "named": false
+  },
+  {
+    "type": "requires",
     "named": false
   },
   {
@@ -6831,6 +7097,10 @@
   },
   {
     "type": "via",
+    "named": false
+  },
+  {
+    "type": "viewtype",
     "named": false
   },
   {

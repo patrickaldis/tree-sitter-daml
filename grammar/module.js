@@ -146,6 +146,7 @@ module.exports = {
     $.fixity,
     $.top_splice,
     $.template,
+    $.interface,
     $.daml_scenario,
   ),
 

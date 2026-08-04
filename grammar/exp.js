@@ -23,6 +23,11 @@ module.exports = {
     $.variable,
     $.implicit_variable,
     $.label,
+    // Daml's contract-key value. `key` is a reserved keyword (needed by the
+    // `key <expr> : <type>` template clause), so it can never be lexed as a
+    // plain `variable`; this production lets it still appear as an expression
+    // atom, e.g. `maintainer key`, `key._1`, or `lookup key m`.
+    $.key_expression,
   ),
 
   _exp_th_quoted_name: $ => choice(

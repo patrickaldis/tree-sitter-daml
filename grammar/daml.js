@@ -22,7 +22,10 @@ module.exports = {
     $.observer,
     $.ensure,
     $.agreement,
-    $.choice
+    $.key,
+    $.maintainer,
+    $.choice,
+    $.interface_instance
   ),
 
   choice: $ => seq(
@@ -53,6 +56,61 @@ module.exports = {
     'agreement', $._exp
   ),
 
+  // --- Contract keys ---------------------------------------------------------
+  // `key <expr> : <type>` and `maintainer <expr>`. Daml uses a single `:` for
+  // type ascription (unlike Haskell's `::`), matching `daml_field`. Note `key`
+  // is contextual: keyword extraction (`word: $ => $.variable`) still lexes it
+  // as a plain identifier in expression position, so `maintainer key` works.
+  key: $ => seq(
+    'key',
+    field('expression', $.expression)
+  ),
+  maintainer: $ => seq(
+    'maintainer', sep1(',', $.expression)
+  ),
+
+  // `key` used as an expression atom (see `_exp_name`).
+  key_expression: $ => 'key',
+
+  // --- Interfaces ------------------------------------------------------------
+  interface: $ => seq(
+    'interface',
+    field('name', $.name),
+    optional(seq('requires', sep1(',', field('required', $._tyconids)))),
+    'where',
+    field('body', $.interface_body)
+  ),
+
+  interface_body: $ => layout($, field('item', $.interface_item)),
+
+  interface_item: $ => choice(
+    $.viewtype,
+    $.interface_method,
+    $.choice
+  ),
+
+  viewtype: $ => seq('viewtype', field('type', $.quantified_type)),
+
+  // Abstract interface method signature, e.g. `getOwner : Party`.
+  interface_method: $ => seq(
+    field('name', $.variable),
+    ':',
+    field('type', $.quantified_type)
+  ),
+
+  // Template clause `interface instance I for T where <method impls>`.
+  interface_instance: $ => seq(
+    'interface',
+    'instance',
+    field('interface', $._tyconids),
+    'for',
+    field('template', $._tyconids),
+    'where',
+    field('body', $.interface_instance_body)
+  ),
+
+  interface_instance_body: $ => layout($, field('declaration', $.decl)),
+
   daml_scenario: $ => seq(
     'scenario',
     field('body', $._exp)
@@ -64,11 +122,20 @@ module.exports = {
     $.with_fields
   )),
 
-  with_fields: $ => layout($, $.with_field),
+  // Record `with` fields may be written one-per-line (layout) or comma-separated
+  // inline (`r with a = 1, b = 2`, `Foo with dso, provider`). Allowing a
+  // comma-separated list as each layout item supports both forms.
+  with_fields: $ => layout($, sep1(',', $.with_field)),
 
+  // Modelled on `field_update` (`{ }` records): parse the field name first and
+  // make the `= <expr>` optional. A `choice` between `var = exp` and a bare
+  // `var` (pun) instead creates an unresolved shift/reduce conflict that breaks
+  // any `with` block mixing punned and assigned fields (`with dso; owner = sv`).
   with_field: $ => choice(
-    seq($.variable, '=', $._exp),
-    alias($.variable, $.punned_field),
-    alias('..', $.wildcard)
+    alias('..', $.wildcard),
+    seq(
+      field('field', $.variable),
+      optional(seq('=', field('expression', $._exp)))
+    )
   ),
 };

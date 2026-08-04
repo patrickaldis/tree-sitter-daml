@@ -18,7 +18,12 @@ module.exports = {
   _arrow: _ => choice('->', '→'),
   _linear_arrow: _ => choice('->.', '⊸'),
   _larrow: _ => choice('<-', '←'),
-  _colon2: _ => choice('::', '∷'),
+  // Daml swaps Haskell's convention: a single `:` is the type-ascription
+  // operator (signatures, `key`/field annotations), while `::` is list cons.
+  // The scanner (`lex_symop`/`valid_symop_two_chars`) is what actually keeps a
+  // bare `:` out of the symbolic-operator (consym) lexer so it can be lexed
+  // here; `::` is handed to the consym lexer instead.
+  _colon2: _ => choice(':', '∷'),
   _promote: _ => '\'',
 
   _qual_dot: $ => seq($._cond_qual_dot, '.'),

@@ -2063,8 +2063,6 @@ static bool valid_symop_two_chars(int32_t first_char, int32_t second_char) {
       return second_char != '>';
     case '<':
       return second_char != '-';
-    case ':':
-      return second_char != ':';
     default:
       return true;
   }
@@ -2142,6 +2140,7 @@ static Lexed lex_symop(Env *env) {
       case '*':
       case '-':
         return LSymopSpecial;
+      case ':': // Daml: a bare `:` is type ascription, lexed by the grammar as `_colon2`, not a consym.
       case '\\':
       case 0x2190: // ←
       case 0x2200: // ∀
