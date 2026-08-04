@@ -13,7 +13,9 @@ module.exports = {
     field('body', $.template_body)
   ),
 
-  daml_fields: $ => layout($, field('field', $.daml_field)),
+  // Fields may be one-per-line (layout) or comma-separated inline, e.g.
+  // `data R = R with a : T, b : U` or `template T with a : Party, b : Int`.
+  daml_fields: $ => layout($, sep1(',', field('field', $.daml_field))),
   daml_field: $ => seq($.variable, ':', $.quantified_type),
 
   template_body: $ => layout($, field('item', $.template_item)),

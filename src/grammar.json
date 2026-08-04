@@ -7978,12 +7978,12 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "field",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "field",
+              "content": {
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
@@ -7991,8 +7991,12 @@
                 },
                 "named": true,
                 "value": "field"
-              },
-              {
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "field",
+              "content": {
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
@@ -8001,8 +8005,25 @@
                 "named": true,
                 "value": "record"
               }
-            ]
-          }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "with"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "fields",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "daml_fields"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -13096,12 +13117,37 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "FIELD",
-                      "name": "field",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "daml_field"
-                      }
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "FIELD",
+                          "name": "field",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "daml_field"
+                          }
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              },
+                              {
+                                "type": "FIELD",
+                                "name": "field",
+                                "content": {
+                                  "type": "SYMBOL",
+                                  "name": "daml_field"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -13125,12 +13171,37 @@
                             ]
                           },
                           {
-                            "type": "FIELD",
-                            "name": "field",
-                            "content": {
-                              "type": "SYMBOL",
-                              "name": "daml_field"
-                            }
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "FIELD",
+                                "name": "field",
+                                "content": {
+                                  "type": "SYMBOL",
+                                  "name": "daml_field"
+                                }
+                              },
+                              {
+                                "type": "REPEAT",
+                                "content": {
+                                  "type": "SEQ",
+                                  "members": [
+                                    {
+                                      "type": "STRING",
+                                      "value": ","
+                                    },
+                                    {
+                                      "type": "FIELD",
+                                      "name": "field",
+                                      "content": {
+                                        "type": "SYMBOL",
+                                        "name": "daml_field"
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
                           }
                         ]
                       }

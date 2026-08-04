@@ -177,10 +177,12 @@ module.exports = {
 
   newtype_constructor: $ => seq(
     field('name', $._con),
-    field('field', choice(
-      alias($._newtype_con_field, $.field),
-      alias($._record_fields, $.record),
-    )),
+    choice(
+      field('field', alias($._newtype_con_field, $.field)),
+      field('field', alias($._record_fields, $.record)),
+      // Daml record syntax: `newtype NT = NT with field : T`.
+      seq('with', field('fields', $.daml_fields)),
+    ),
   ),
 
   _newtype: $ => seq(

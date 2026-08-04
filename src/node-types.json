@@ -4704,7 +4704,7 @@
     "fields": {
       "field": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "field",
@@ -4712,6 +4712,16 @@
           },
           {
             "type": "record",
+            "named": true
+          }
+        ]
+      },
+      "fields": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "daml_fields",
             "named": true
           }
         ]
