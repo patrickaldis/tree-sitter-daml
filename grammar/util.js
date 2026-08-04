@@ -76,6 +76,13 @@ const layout_single = ($, rule) => layout_sort_single($, $._cmd_layout_start, ru
  */
 const layout = ($, rule) => layout_sort($, $._cmd_layout_start, rule)
 
+/**
+ * Layout for Daml record `with` blocks, using a dedicated start token so the
+ * scanner tags the context as `WithLayout` and does not let `,`/`=` close it
+ * inside parenthesised expressions.
+ */
+const layout_with = ($, rule) => layout_sort($, $._cmd_layout_start_with, rule)
+
 // ------------------------------------------------------------------------
 // unboxed
 // ------------------------------------------------------------------------
@@ -150,6 +157,7 @@ module.exports = {
   layout_sort,
   layout_single,
   layout,
+  layout_with,
   unboxed,
   unboxed_tuple_nonempty,
   unboxed_tuple_full,

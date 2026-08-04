@@ -1,5 +1,6 @@
 const {
   layout,
+  layout_with,
   sep1
 } = require('./util.js');
 
@@ -125,7 +126,7 @@ module.exports = {
   // Record `with` fields may be written one-per-line (layout) or comma-separated
   // inline (`r with a = 1, b = 2`, `Foo with dso, provider`). Allowing a
   // comma-separated list as each layout item supports both forms.
-  with_fields: $ => layout($, sep1(',', $.with_field)),
+  with_fields: $ => layout_with($, sep1(',', $.with_field)),
 
   // Modelled on `field_update` (`{ }` records): parse the field name first and
   // make the `= <expr>` optional. A `choice` between `var = exp` and a bare

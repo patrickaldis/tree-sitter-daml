@@ -121,6 +121,7 @@ typedef enum {
   START_IF,
   START_LET,
   START_QUOTE,
+  START_WITH,
   START_EXPLICIT,
   END,
   END_EXPLICIT,
@@ -175,6 +176,7 @@ static const char *sym_names[] = {
   "start_if",
   "start_let",
   "start_quote",
+  "start_with",
   "start_explicit",
   "end",
   "end_explicit",
@@ -268,6 +270,7 @@ typedef enum {
   CaseLayout,
   LetLayout,
   QuoteLayout,
+  WithLayout,
   MultiWayIfLayout,
   Braces,
   TExp,
@@ -284,6 +287,7 @@ static char const *context_names[] = {
   "let",
   "multi_way_if",
   "quote",
+  "with",
   "braces",
   "texp",
   "module_header",
@@ -1736,6 +1740,8 @@ static ContextSort layout_sort(Symbol s) {
       return LetLayout;
     case START_QUOTE:
       return QuoteLayout;
+    case START_WITH:
+      return WithLayout;
     default:
       return DeclLayout;
   }
@@ -2016,6 +2022,13 @@ static bool layouts_in_texp(Env *env) {
  * Here the let layout must be ended by parse error, so we start a tuple expression at the bar and end it at the arrow.
  */
 static Symbol token_end_layout_texp(Env *env) {
+  // A Daml record `with` layout must not be closed by `,`/`=` inside parens:
+  // those are field separators / assignment, not tuple/texp closers. A real
+  // closer (`)`, `]`, `}`) must still end it, so only bail out for `,`/`=`.
+  if (current_context(env) == WithLayout) {
+    int32_t c = peek0(env);
+    if (c == ',' || c == '=') return FAIL;
+  }
   return (valid(env, END) && layouts_in_texp(env)) ? end_layout(env, "texp") : FAIL;
 }
 
