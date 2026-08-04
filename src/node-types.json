@@ -4877,6 +4877,65 @@
     }
   },
   {
+    "type": "pat_with_field",
+    "named": true,
+    "fields": {
+      "field": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "signature",
+            "named": true
+          },
+          {
+            "type": "view_pattern",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pat_with_fields",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pat_with_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pattern_guard",
     "named": true,
     "fields": {
@@ -5485,6 +5544,10 @@
           },
           {
             "type": "fields",
+            "named": true
+          },
+          {
+            "type": "pat_with_fields",
             "named": true
           }
         ]

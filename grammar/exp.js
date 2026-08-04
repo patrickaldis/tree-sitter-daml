@@ -271,7 +271,7 @@ module.exports = {
 
   _exp_record: $ => prec('record', seq(
     field('expression', $.expression),
-    braces($, sep(',', field('field', $.field_update)))),
+    braces($, sep(choice(',', ';'), field('field', $.field_update)))),
   ),
 
   _exp_projection_selector: $ => parens(

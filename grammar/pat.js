@@ -38,7 +38,28 @@ module.exports = {
 
   _pat_record: $ => prec('record', seq(
     field('constructor', $.pattern),
-    braces($, sep(',', field('field', $.field_pattern))),
+    braces($, sep(choice(',', ';'), field('field', $.field_pattern))),
+  )),
+
+  // Daml record-`with` pattern, e.g. `ARC_AmuletRules with ..` or
+  // `Con with f = p; g`. Mirrors the `with` expression; uses the same
+  // `WithLayout` so `,`/`;`/`=` behave like field syntax inside parens.
+  pat_with_field: $ => choice(
+    alias('..', $.wildcard),
+    seq(
+      field('field', $.variable),
+      optional(seq('=', field('pattern', $._pat_texp)))
+    ),
+  ),
+
+  // Inline only (no layout): record-`with` patterns are single-line in practice
+  // (`Con with ..`), and a layout here would fight the `->` of a case alt.
+  pat_with_fields: $ => prec.left(sep1(choice(',', ';'), $.pat_with_field)),
+
+  _pat_with: $ => prec.left('apply', seq(
+    field('constructor', $.pattern),
+    'with',
+    field('fields', $.pat_with_fields),
   )),
 
   // ------------------------------------------------------------------------
@@ -118,6 +139,7 @@ module.exports = {
     $._pat_name,
     alias($._pat_as, $.as),
     alias($._pat_record, $.record),
+    alias($._pat_with, $.record),
     alias($._pat_wildcard, $.wildcard),
     alias($._pat_parens, $.parens),
     alias($._pat_tuple, $.tuple),

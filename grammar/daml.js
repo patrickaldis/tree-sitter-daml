@@ -36,6 +36,8 @@ module.exports = {
     ':',
     field('return_type', $.quantified_type),
     optional(seq('with', field('arguments', $.daml_fields))),
+    // Daml allows the choice `observer` clause before or after `controller`.
+    optional($.observer),
     $.controller,
     optional($.observer),
     field('body', $._exp_do)

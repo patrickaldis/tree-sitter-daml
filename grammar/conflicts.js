@@ -64,6 +64,10 @@ module.exports = {
     [$._operator_hash_head, $._unboxed_open],
     [$._exp_apply, $.controller],
     [$._exp_apply, $.observer],
+
+    // Daml record-`with` pattern field: `f` may be a punned field or the start
+    // of `f = p`; defer the decision to GLR (same as record `field_update`).
+    [$.pat_with_field],
   ],
 
 }
